@@ -1,0 +1,56 @@
+ require 'sqlite3'
+=> true
+irb(main):002:1* begin
+irb(main):003:1*   db = SQLite3::Database.new "memory"
+irb(main):004:1*   puts db.get_first_value 'SELECT SQLITE_VERSION()'
+irb(main):005:1*   
+irb(main):006:1* rescue SQLite3::Exception => e
+irb(main):007:1*   
+irb(main):008:1*   puts "Exception occurred"
+irb(main):009:1*   puts e 
+irb(main):010:1*   
+irb(main):011:1* ensure
+irb(main):012:1*   db.close if db
+irb(main):013:0> end
+3.35.5
+=> nil
+irb(main):014:0> require 'sqlite3'
+=> false
+irb(main):015:0> require 'sqlite3'
+irb(main):016:1* begin
+irb(main):017:1*   db = SQLite3::Database.open "test.db"
+irb(main):018:1*   db.execute "CREATE TABLE IF NOT EXISTS Player(Num, Name, Posi
+tion, Type, Exposures, Overall_Grade, Alignment)"
+irb(main):019:1*   db.execute "INSERT INTO Player VALUES('5', 'Joe Flacco', 'QB'
+, 'College', 'Univ of Delaware', '1st Round', 'None')"
+irb(main):020:1* rescue SQLite3::Exception => e
+irb(main):021:1*   puts "Exception occurred"
+irb(main):022:1*   puts e
+irb(main):023:1*   
+irb(main):024:1* ensure
+irb(main):025:1*   db.close if db
+irb(main):026:0> end
+=> []
+irb(main):027:0> require 'sqlite3'
+=> false
+irb(main):028:0> require 'sqlite3'
+=> false
+irb(main):029:1* begin
+irb(main):030:1*   db = SQLite3::Database.open "test.db"
+irb(main):031:1*   
+irb(main):032:1*   stm = db.prepare "SELECT * FROM Player"
+irb(main):033:1*   rs = stm.execute
+irb(main):034:1*   
+irb(main):035:2*   rs.each do |row|
+irb(main):036:2*     puts row.join "\s"
+irb(main):037:1*   end
+irb(main):038:1*   
+irb(main):039:1* rescue SQLite::Exception => e
+irb(main):040:1*   
+irb(main):041:1*   puts "Exception occurred"
+irb(main):042:1*   puts e
+irb(main):043:1*   
+irb(main):044:1* ensure
+irb(main):045:1*   stm.close if stm
+irb(main):046:1*   db.close if db
+irb(main):047:0> end
